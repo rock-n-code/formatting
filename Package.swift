@@ -5,13 +5,13 @@ import PackageDescription
 let package = Package(
     name: "Formatting",
     platforms: [
-        .macOS(.v10_15)
+        .macOS(.v12)
     ],
     products: [
         .plugin(
             name: "Formatting Plugins",
             targets: [
-                "Format Source Code"
+                "Reset Configuration"
             ]
         )
     ],
@@ -23,33 +23,23 @@ let package = Package(
     ],
     targets: [
         .plugin(
-            name: "Format Source Code",
+            name: "Reset Configuration",
             capability: .command(
-                intent: .sourceCodeFormatting(),
+                intent: .custom(
+                    verb: "reset-configuration",
+                    description: "Add or reset a .swift-format.json with Swift Format default configuration."
+                ),
                 permissions: [
-                    .writeToPackageDirectory(
-                        reason: "..."
-                    )
+                    .writeToPackageDirectory(reason: "Add a default .swift-format.json file with default configuration.")
                 ]
             ),
             dependencies: [
-                "Formatting",
-                .product(
+               .product(
                     name: "SwiftFormat",
                     package: "swift-format"
-                )
+               )
             ],
-            path: "Plugins/FormatSourceCode"
-        ),
-        .target(
-            name: "Formatting",
-            dependencies: []
-        ),
-        .testTarget(
-            name: "FormattingTests",
-            dependencies: [
-                "Formatting"
-            ]
-        ),
+            path: "Plugins/ResetConfiguration"
+        )
     ]
 )
