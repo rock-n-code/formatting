@@ -14,9 +14,9 @@ struct Plugin: CommandPlugin {
     
     // MARK: Properties
     
-    private let fileManager: FileManager = .default
-    private let process: Process = .init()
-    private let pipe: Pipe = .init()
+    let fileManager: FileManager = .default
+    let process: Process = .init()
+    let pipe: Pipe = .init()
     
     // MARK: Functions
     

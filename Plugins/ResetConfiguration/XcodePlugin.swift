@@ -10,13 +10,7 @@
 import XcodeProjectPlugin
 import Foundation
 
-struct XcodePlugin: XcodeCommandPlugin {
-    
-    // MARK: Properties
-    
-    private let fileManager: FileManager = .default
-    private let process: Process = .init()
-    private let pipe: Pipe = .init()
+extension Plugin: XcodeCommandPlugin {
     
     // MARK: Functions
     
