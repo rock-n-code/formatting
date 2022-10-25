@@ -86,7 +86,7 @@ private extension Plugin {
         process.executableURL = .init(fileURLWithPath: commandPath)
         process.standardOutput = pipe
         process.arguments = [
-            .Arguments.mode,
+//            .Arguments.mode,
             .Arguments.dumpConfiguration
         ]
 
