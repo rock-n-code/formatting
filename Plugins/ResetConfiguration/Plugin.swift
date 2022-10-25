@@ -15,8 +15,6 @@ struct Plugin {
     // MARK: Properties
     
     let fileManager: FileManager = .default
-    let process: Process = .init()
-    let pipe: Pipe = .init()
     
 }
 
@@ -81,6 +79,9 @@ private extension Plugin {
         {
             try fileManager.removeItem(atPath: configurationPath)
         }
+        
+        let process = Process()
+        let pipe = Pipe()
         
         process.executableURL = .init(fileURLWithPath: commandPath)
         process.standardOutput = pipe
