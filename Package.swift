@@ -35,7 +35,7 @@ let package = Package(
             ),
             dependencies: [
                .product(
-                    name: "SwiftFormat",
+                    name: "swift-format",
                     package: "swift-format"
                )
             ],
