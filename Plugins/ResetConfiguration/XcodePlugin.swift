@@ -1,16 +1,16 @@
 //
-//  Plugin.swift
-//  ResetConfiguration
+//  XcodePlugin.swift
+//  FormatSourceCode
 //
 //  Created by Javier Cicchelli on 25/10/2022.
 //  Copyright © 2022 Röck+Cöde. All rights reserved.
 //
 
-import PackagePlugin
+#if canImport(XcodeProjectPlugin)
+import XcodeProjectPlugin
 import Foundation
 
-@main
-struct Plugin: CommandPlugin {
+struct XcodePlugin: XcodeCommandPlugin {
     
     // MARK: Properties
     
@@ -21,16 +21,16 @@ struct Plugin: CommandPlugin {
     // MARK: Functions
     
     func performCommand(
-        context: PackagePlugin.PluginContext,
+        context: XcodeProjectPlugin.XcodePluginContext,
         arguments: [String]
-    ) async throws {
+    ) throws {
         let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
-        let configurationPath = context.package.directory.appending(subpath: .Defaults.configuratioFile).string
+        let configurationPath = context.xcodeProject.directory.appending(subpath: .Defaults.configuratioFile).string
         
         if fileManager.fileExists(atPath: configurationPath),
            fileManager.isDeletableFile(atPath: configurationPath)
         {
-            try fileManager.removeItem(atPath: configurationPath)
+        try fileManager.removeItem(atPath: configurationPath)
         }
         
         process.executableURL = .init(fileURLWithPath: swiftFormatPath)
@@ -65,3 +65,4 @@ struct Plugin: CommandPlugin {
     }
     
 }
+#endif
