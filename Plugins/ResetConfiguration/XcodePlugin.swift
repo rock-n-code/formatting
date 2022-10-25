@@ -21,15 +21,18 @@ extension Plugin: XcodeCommandPlugin {
         let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
         let configurationPath = context.xcodeProject.directory.appending(subpath: .Defaults.configuratioFile).string
         
+        print("EXECUTABLE PATH: \(swiftFormatPath)")
+        print("EXECUTABLE PATH: \(configurationPath)")
+        
         if fileManager.fileExists(atPath: configurationPath),
            fileManager.isDeletableFile(atPath: configurationPath)
         {
-        try fileManager.removeItem(atPath: configurationPath)
+            try fileManager.removeItem(atPath: configurationPath)
         }
         
         process.executableURL = .init(fileURLWithPath: swiftFormatPath)
         process.arguments = [
-            .Arguments.mode,
+//            .Arguments.mode,
             .Arguments.dumpConfiguration
         ]
         process.standardOutput = pipe
