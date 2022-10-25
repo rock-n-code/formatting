@@ -22,7 +22,7 @@ extension Plugin: XcodeCommandPlugin {
         let configurationPath = context.xcodeProject.directory.appending(subpath: .Defaults.configuratioFile).string
         
         print("EXECUTABLE PATH: \(swiftFormatPath)")
-        print("EXECUTABLE PATH: \(configurationPath)")
+        print("EXECUTABLE PATH: \(swiftFormatPath)")
         
         if fileManager.fileExists(atPath: configurationPath),
            fileManager.isDeletableFile(atPath: configurationPath)
@@ -32,7 +32,7 @@ extension Plugin: XcodeCommandPlugin {
         
         process.executableURL = .init(fileURLWithPath: swiftFormatPath)
         process.arguments = [
-//            .Arguments.mode,
+            .Arguments.mode,
             .Arguments.dumpConfiguration
         ]
         process.standardOutput = pipe
@@ -41,15 +41,15 @@ extension Plugin: XcodeCommandPlugin {
         
         process.waitUntilExit()
         
-        guard
-            process.terminationReason == .exit,
-            process.terminationStatus == 0
-        else {
-            throw CommandError.runNotSuccessful(
-                reason: process.terminationReason,
-                status: Int(process.terminationStatus)
-            )
-        }
+//        guard
+//            process.terminationReason == .exit,
+//            process.terminationStatus == 0
+//        else {
+//            throw CommandError.runNotSuccessful(
+//                reason: process.terminationReason,
+//                status: Int(process.terminationStatus)
+//            )
+//        }
         
         guard let configurationData = try pipe.fileHandleForReading.readToEnd() else {
             throw CommandError.outputDataNotAvailable

@@ -44,15 +44,15 @@ struct Plugin: CommandPlugin {
         
         process.waitUntilExit()
         
-        guard
-            process.terminationReason == .exit,
-            process.terminationStatus == 0
-        else {
-            throw CommandError.runNotSuccessful(
-                reason: process.terminationReason,
-                status: Int(process.terminationStatus)
-            )
-        }
+//        guard
+//            process.terminationReason == .exit,
+//            process.terminationStatus == 0
+//        else {
+//            throw CommandError.runNotSuccessful(
+//                reason: process.terminationReason,
+//                status: Int(process.terminationStatus)
+//            )
+//        }
         
         guard let configurationData = try pipe.fileHandleForReading.readToEnd() else {
             throw CommandError.outputDataNotAvailable
