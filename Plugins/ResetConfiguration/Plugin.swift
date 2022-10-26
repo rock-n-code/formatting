@@ -31,7 +31,7 @@ extension Plugin: CommandPlugin {
         arguments: [String]
     ) async throws {
         let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
-        let configurationPath = context.package.directory.appending(subpath: .Defaults.configuratioFile).string
+        let configurationPath = context.package.directory.appending(subpath: .Defaults.configurationFileName).string
         
         try execute(
             commandPath: swiftFormatPath,
@@ -55,7 +55,7 @@ extension Plugin: XcodeCommandPlugin {
         arguments: [String]
     ) throws {
         let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
-        let configurationPath = context.xcodeProject.directory.appending(subpath: .Defaults.configuratioFile).string
+        let configurationPath = context.xcodeProject.directory.appending(subpath: .Defaults.configurationFileName).string
         
         try execute(
             commandPath: swiftFormatPath,
