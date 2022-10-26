@@ -40,6 +40,17 @@ let package = Package(
                )
             ],
             path: "Plugins/ResetConfiguration"
+        ),
+        .target(
+            name: "FormattingCore",
+            path: "Sources/Formatting"
+        ),
+        .testTarget(
+            name: "FormattingCoreTests",
+            dependencies: [
+                "FormattingCore"
+            ],
+            path: "Tests/Formatting"
         )
     ]
 )
