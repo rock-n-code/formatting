@@ -7,7 +7,7 @@
 //
 
 extension String {
-    public enum Arguments {
-        public static let dumpConfiguration = "dump-configuration"
+    enum Arguments {
+        static let dumpConfiguration = "dump-configuration"
     }
 }

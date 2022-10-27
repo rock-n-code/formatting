@@ -7,7 +7,7 @@
 //
 
 extension String {
-    public enum Commands {
-        public static let swiftFormat = "swift-format"
+    enum Commands {
+        static let swiftFormat = "swift-format"
     }
 }

@@ -7,7 +7,7 @@
 //
 
 extension String {
-    public enum Defaults {
-        public static let configurationFileName = ".swift-format.json"
+    enum Defaults {
+        static let configurationFileName = ".swift-format.json"
     }
 }
