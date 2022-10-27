@@ -7,16 +7,13 @@
 //
 
 import PackagePlugin
-import Foundation
 
 @main
 struct Plugin {
     
     // MARK: Properties
     
-    private let fileManager: FileManager = .default
-    private let process: Process = .init()
-    private let pipe: Pipe = .init()
+    private let dumpConfiguration = DumpConfiguration()
     
 }
 
@@ -25,15 +22,15 @@ struct Plugin {
 extension Plugin: CommandPlugin {
 
     // MARK: Functions
-    
+
     func performCommand(
         context: PackagePlugin.PluginContext,
         arguments: [String]
-    ) async throws {
+    ) throws {
         let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
         let configurationPath = context.package.directory.appending(subpath: .Defaults.configurationFileName).string
         
-        try execute(
+        try dumpConfiguration(
             commandPath: swiftFormatPath,
             configurationPath: configurationPath
         )
@@ -47,7 +44,7 @@ extension Plugin: CommandPlugin {
 import XcodeProjectPlugin
 
 extension Plugin: XcodeCommandPlugin {
-    
+
     // MARK: Functions
     
     func performCommand(
@@ -57,7 +54,7 @@ extension Plugin: XcodeCommandPlugin {
         let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
         let configurationPath = context.xcodeProject.directory.appending(subpath: .Defaults.configurationFileName).string
         
-        try execute(
+        try dumpConfiguration(
             commandPath: swiftFormatPath,
             configurationPath: configurationPath
         )
@@ -65,51 +62,3 @@ extension Plugin: XcodeCommandPlugin {
     
 }
 #endif
-
-// MARK: - Helpers
-
-private extension Plugin {
-    
-    // MARK: Functions
-    
-    func execute(
-        commandPath: String,
-        configurationPath: String
-    ) throws {
-        if fileManager.fileExists(atPath: configurationPath),
-           fileManager.isDeletableFile(atPath: configurationPath)
-        {
-            try fileManager.removeItem(atPath: configurationPath)
-        }
-
-        process.executableURL = .init(fileURLWithPath: commandPath)
-        process.standardOutput = pipe
-        process.arguments = [
-            .Arguments.dumpConfiguration
-        ]
-
-        try process.run()
-        
-        process.waitUntilExit()
-        
-        guard
-            process.terminationReason == .exit,
-            process.terminationStatus == 0
-        else {
-            throw CommandError.runNotSuccessful(
-                reason: process.terminationReason,
-                status: Int(process.terminationStatus)
-            )
-        }
-        
-        guard let configurationData = try pipe.fileHandleForReading.readToEnd() else {
-            throw CommandError.outputDataNotAvailable
-        }
-        
-        fileManager.createFile(
-            atPath: configurationPath,
-            contents: configurationData
-        )
-    }
-    
-}
