@@ -18,7 +18,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/apple/swift-format.git",
-            from: "0.50700.1"
+            exact: "0.50700.1"
         )
     ],
     targets: [
