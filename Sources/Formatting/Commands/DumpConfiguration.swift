@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import RockNCodeCore
 
 struct DumpConfiguration {
     
     // MARK: Properties
     
     private let fileHandler: FileHandler
-    private let run: RunnableCommand
+    private let run: Runnable
     
     // MARK: Functions
     

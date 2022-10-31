@@ -20,10 +20,6 @@ let package = Package(
             url: "https://github.com/apple/swift-format.git",
             exact: "0.50700.1"
         ),
-        .package(
-            url: "https://github.com/rock-n-code/core.git",
-            branch: "main"
-        ),
     ],
     targets: [
         .plugin(
@@ -47,19 +43,11 @@ let package = Package(
         ),
         .target(
             name: "FormattingCore",
-            dependencies: [
-                .product(
-                    name: "Core",
-                    package: "core"
-                ),
-            ],
             path: "Sources/Formatting"
         ),
         .testTarget(
             name: "FormattingCoreTests",
-            dependencies: [
-                "FormattingCore"
-            ],
+            dependencies: ["FormattingCore"],
             path: "Tests/Formatting"
         )
     ]
