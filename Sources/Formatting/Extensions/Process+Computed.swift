@@ -6,9 +6,10 @@
 //  Copyright © 2022 Röck+Cöde. All rights reserved.
 //
 
+#if os(macOS) || targetEnvironment(macCatalyst)
 import Foundation
 
-extension Process {
+public extension Process {
     
     // MARK: Computed
     
@@ -17,3 +18,4 @@ extension Process {
     }
     
 }
+#endif

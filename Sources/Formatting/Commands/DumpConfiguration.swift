@@ -13,16 +13,16 @@ struct DumpConfiguration {
     // MARK: Properties
     
     private let fileHandler: FileHandler
-    private let run: Runnable
+    private let command: Commandable
     
     // MARK: Functions
     
     init(
         fileHandler: FileHandler = FileManager.default,
-        run: RunnableCommand = Command()
+        command: Commandable = Command()
     ) {
         self.fileHandler = fileHandler
-        self.run = run
+        self.command = command
     }
     
     // MARK: Functions
@@ -37,7 +37,7 @@ struct DumpConfiguration {
             try fileHandler.removeItem(atPath: configurationPath)
         }
         
-        let configurationData = try run(
+        let configurationData = try command(
             pathToCommand: commandPath,
             arguments: [.Arguments.dumpConfiguration]
         )

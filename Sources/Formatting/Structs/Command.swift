@@ -6,28 +6,38 @@
 //  Copyright © 2022 Röck+Cöde. All rights reserved.
 //
 
+#if os(macOS) || targetEnvironment(macCatalyst)
 import Foundation
-import CoreSwift
 
-struct Command {
+public struct Command {
     
     // MARK: Properties
     
-    private let process = Process()
-    private let pipe = Pipe()
+    public let process: Processable
+    public let pipe: Pipable
+    
+    // MARK: Initialisers
+    
+    public init(
+        process: Processable = Process(),
+        pipe: Pipable = Pipe()
+    ) {
+        self.process = process
+        self.pipe = pipe
+    }
     
 }
 
-// MARK: - Runnable
+// MARK: - Commandable
 
-extension Command: Runnable {
+extension Command: Commandable {
     
     @discardableResult
-    func callAsFunction(
+    public func callAsFunction(
         pathToCommand: String,
         arguments: [String]? = nil
     ) throws -> Data? {
-        guard pathToCommand.isNotEmpty else {
+        guard !pathToCommand.isEmpty else {
             throw CommandError.pathToCommandNotDefined
         }
         
@@ -55,8 +65,8 @@ extension Command: Runnable {
 
 // MARK: - Errors
 
-enum CommandError: Error {
+public enum CommandError: Error {
     case pathToCommandNotDefined
     case runNotSuccessful(reason: Process.TerminationReason, status: Int)
 }
-
+#endif
