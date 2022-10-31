@@ -6,16 +6,16 @@
 //  Copyright © 2022 Röck+Cöde. All rights reserved.
 //
 
-import Foundation
-
-protocol Runnable {
-    
-    // MARK: Functions
-    
-    @discardableResult
-    func callAsFunction(
-        pathToCommand: String,
-        arguments: [String]?
-    ) throws -> Data?
-    
-}
+//import Foundation
+//
+//protocol Runnable {
+//    
+//    // MARK: Functions
+//    
+//    @discardableResult
+//    func callAsFunction(
+//        pathToCommand: String,
+//        arguments: [String]?
+//    ) throws -> Data?
+//    
+//}
