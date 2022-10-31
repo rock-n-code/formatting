@@ -15,7 +15,8 @@ let package = Package(
         .plugin(
             name: "Formatting Plugins",
             targets: [
-                "Dump Configuration"
+                "Dump Configuration",
+                "Format Source Code",
             ]
         )
     ],
@@ -44,6 +45,22 @@ let package = Package(
                ),
             ],
             path: "Plugins/DumpConfiguration"
+        ),
+        .plugin(
+            name: "Format Source Code",
+            capability: .command(
+                intent: .sourceCodeFormatting(),
+                permissions: [
+                    .writeToPackageDirectory(reason: "Format source code using swift-format.")
+                ]
+            ),
+            dependencies: [
+                .product(
+                    name: "swift-format",
+                    package: "swift-format"
+                ),
+            ],
+            path: "Plugins/FormatSourceCode"
         ),
         .target(
             name: "FormattingCore",

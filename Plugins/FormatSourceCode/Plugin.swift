@@ -1,8 +1,8 @@
 //
 //  Plugin.swift
-//  DumpConfiguration
+//  FormatSourceCode
 //
-//  Created by Javier Cicchelli on 25/10/2022.
+//  Created by Javier Cicchelli on 01/11/2022.
 //  Copyright © 2022 Röck+Cöde. All rights reserved.
 //
 
@@ -13,16 +13,16 @@ struct Plugin {
     
     // MARK: Properties
     
-    private let dumpConfiguration = DumpConfiguration()
+    private let formatSourceCode = FormatSourceCode()
     
 }
 
 // MARK: - CommandPlugin
 
 extension Plugin: CommandPlugin {
-
+    
     // MARK: Functions
-
+    
     func performCommand(
         context: PackagePlugin.PluginContext,
         arguments: [String]
@@ -30,10 +30,13 @@ extension Plugin: CommandPlugin {
         let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
         let configurationPath = context.package.directory.appending(subpath: .Defaults.configurationFileName).string
         
-        try dumpConfiguration(
-            commandPath: swiftFormatPath,
-            configurationPath: configurationPath
-        )
+        try context.package.targets.forEach { target in
+            try formatSourceCode(
+                commandPath: swiftFormatPath,
+                rootFolderPath: target.directory.string,
+                configurationPath: configurationPath
+            )
+        }
     }
     
 }
@@ -44,7 +47,7 @@ extension Plugin: CommandPlugin {
 import XcodeProjectPlugin
 
 extension Plugin: XcodeCommandPlugin {
-
+    
     // MARK: Functions
     
     func performCommand(
@@ -54,8 +57,9 @@ extension Plugin: XcodeCommandPlugin {
         let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
         let configurationPath = context.xcodeProject.directory.appending(subpath: .Defaults.configurationFileName).string
         
-        try dumpConfiguration(
+        try formatSourceCode(
             commandPath: swiftFormatPath,
+            rootFolderPath: context.xcodeProject.directory.string,
             configurationPath: configurationPath
         )
     }
