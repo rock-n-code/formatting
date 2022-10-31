@@ -39,7 +39,7 @@ struct DumpConfiguration {
         
         let configurationData = try command(
             pathToCommand: commandPath,
-            arguments: [.Arguments.dumpConfiguration]
+            arguments: [.Subcommands.dumpConfiguration]
         )
         
         fileHandler.createFile(
