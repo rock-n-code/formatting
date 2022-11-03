@@ -29,13 +29,13 @@ struct FormatSourceCode {
     
     func callAsFunction(
         commandPath: String,
-        rootFolderPath: String,
+        directoryPath: String,
         configurationPath: String?
     ) throws {
         try command(
             pathToCommand: commandPath,
             arguments: makeArguments(
-                rootFolderPath: rootFolderPath,
+                directoryPath: directoryPath,
                 configurationPath: configurationPath
             )
         )
@@ -50,7 +50,7 @@ private extension FormatSourceCode {
     // MARK: Functions
     
     func makeArguments(
-        rootFolderPath: String,
+        directoryPath: String,
         configurationPath: String?
     ) -> [String] {
         var arguments: [String] = [
@@ -69,7 +69,7 @@ private extension FormatSourceCode {
             ])
         }
         
-        arguments.append(rootFolderPath)
+        arguments.append(directoryPath)
         
         return arguments
     }

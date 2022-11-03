@@ -9,13 +9,7 @@
 import PackagePlugin
 
 @main
-struct Plugin {
-    
-    // MARK: Properties
-    
-    private let formatSourceCode = FormatSourceCode()
-    
-}
+struct Plugin {}
 
 // MARK: - CommandPlugin
 
@@ -27,16 +21,10 @@ extension Plugin: CommandPlugin {
         context: PackagePlugin.PluginContext,
         arguments: [String]
     ) throws {
-        let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
-        let configurationPath = context.package.directory.appending(subpath: .Defaults.configurationFileName).string
-        
-        try context.package.targets.forEach { target in
-            try formatSourceCode(
-                commandPath: swiftFormatPath,
-                rootFolderPath: target.directory.string,
-                configurationPath: configurationPath
-            )
-        }
+        try formatSourceCode(
+            context: context,
+            directory: context.package.directory
+        )
     }
     
 }
@@ -54,13 +42,9 @@ extension Plugin: XcodeCommandPlugin {
         context: XcodeProjectPlugin.XcodePluginContext,
         arguments: [String]
     ) throws {
-        let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
-        let configurationPath = context.xcodeProject.directory.appending(subpath: .Defaults.configurationFileName).string
-        
         try formatSourceCode(
-            commandPath: swiftFormatPath,
-            rootFolderPath: context.xcodeProject.directory.string,
-            configurationPath: configurationPath
+            context: context,
+            directory: context.xcodeProject.directory
         )
     }
     
