@@ -9,13 +9,7 @@
 import PackagePlugin
 
 @main
-struct Plugin {
-    
-    // MARK: Properties
-    
-    private let dumpConfiguration = DumpConfiguration()
-    
-}
+struct Plugin {}
 
 // MARK: - CommandPlugin
 
@@ -27,12 +21,9 @@ extension Plugin: CommandPlugin {
         context: PackagePlugin.PluginContext,
         arguments: [String]
     ) throws {
-        let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
-        let configurationPath = context.package.directory.appending(subpath: .Defaults.configurationFileName).string
-        
         try dumpConfiguration(
-            commandPath: swiftFormatPath,
-            configurationPath: configurationPath
+            context: context,
+            directory: context.package.directory
         )
     }
     
@@ -51,12 +42,9 @@ extension Plugin: XcodeCommandPlugin {
         context: XcodeProjectPlugin.XcodePluginContext,
         arguments: [String]
     ) throws {
-        let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
-        let configurationPath = context.xcodeProject.directory.appending(subpath: .Defaults.configurationFileName).string
-        
         try dumpConfiguration(
-            commandPath: swiftFormatPath,
-            configurationPath: configurationPath
+            context: context,
+            directory: context.xcodeProject.directory
         )
     }
     
