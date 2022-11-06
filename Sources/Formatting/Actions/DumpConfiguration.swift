@@ -12,18 +12,18 @@ struct DumpConfiguration: Action {
 
     // MARK: Properties
     
-    let fileHandler: FileHandler
-    let command: Commandable
     let subCommand: String = .Subcommands.dumpConfiguration
-    
+    let fileHandler: FileHandler
+    let execute: Executable
+
     // MARK: Functions
     
     init(
         fileHandler: FileHandler = FileManager.default,
-        command: Commandable = Command()
+        command: Executable = Execution()
     ) {
         self.fileHandler = fileHandler
-        self.command = command
+        self.execute = command
     }
     
     // MARK: Functions
@@ -44,7 +44,7 @@ struct DumpConfiguration: Action {
             try fileHandler.removeItem(atPath: configurationPath)
         }
         
-        let configurationData = try command(
+        let configurationData = try execute(
             pathToCommand: commandPath,
             arguments: makeArguments()
         )

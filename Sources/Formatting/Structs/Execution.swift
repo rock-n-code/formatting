@@ -1,5 +1,5 @@
 //
-//  Command.swift
+//  Execution.swift
 //  FormattingCore
 //
 //  Created by Javier Cicchelli on 27/10/2022.
@@ -9,7 +9,7 @@
 #if os(macOS) || targetEnvironment(macCatalyst)
 import Foundation
 
-public struct Command {
+public struct Execution {
     
     // MARK: Properties
     
@@ -30,7 +30,7 @@ public struct Command {
 
 // MARK: - Commandable
 
-extension Command: Commandable {
+extension Execution: Executable {
     
     @discardableResult
     public func callAsFunction(

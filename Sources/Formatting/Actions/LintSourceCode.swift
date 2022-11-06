@@ -12,18 +12,18 @@ struct LintSourceCode: Action {
 
     // MARK: Properties
     
+    let subCommand: String = .Subcommands.lint
     let fileHandler: FileHandler
-    let command: Commandable
-    var subCommand: String = .Subcommands.lint
-    
+    let execute: Executable
+
     // MARK: Functions
     
     init(
         fileHandler: FileHandler = FileManager.default,
-        command: Commandable = Command()
+        command: Executable = Execution()
     ) {
         self.fileHandler = fileHandler
-        self.command = command
+        self.execute = command
     }
     
     // MARK: Functions
@@ -33,7 +33,7 @@ struct LintSourceCode: Action {
         configurationPath: String?,
         directoryPath: String?
     ) throws {
-        try command(
+        try execute(
             pathToCommand: commandPath,
             arguments: makeArguments(
                 options: [

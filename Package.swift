@@ -2,6 +2,15 @@
 
 import PackageDescription
 
+// MARK: Constants
+
+private let swiftFormatDependency = Target.Dependency.product(
+    name: "swift-format",
+    package: "swift-format"
+)
+
+// MARK: - Package
+
 let package = Package(
     name: "Formatting",
     platforms: [
@@ -39,12 +48,7 @@ let package = Package(
                     .writeToPackageDirectory(reason: "Add or reset a .swift-format.json configuration file with default settings.")
                 ]
             ),
-            dependencies: [
-               .product(
-                    name: "swift-format",
-                    package: "swift-format"
-               ),
-            ],
+            dependencies: [swiftFormatDependency],
             path: "Plugins/DumpConfiguration"
         ),
         .plugin(
@@ -55,12 +59,7 @@ let package = Package(
                     .writeToPackageDirectory(reason: "Format source code using swift-format.")
                 ]
             ),
-            dependencies: [
-                .product(
-                    name: "swift-format",
-                    package: "swift-format"
-                ),
-            ],
+            dependencies: [swiftFormatDependency],
             path: "Plugins/FormatSourceCode"
         ),
         .plugin(
@@ -71,12 +70,7 @@ let package = Package(
                     description: "Lint source code using swift-format."
                 )
             ),
-            dependencies: [
-                .product(
-                    name: "swift-format",
-                    package: "swift-format"
-                ),
-            ],
+            dependencies: [swiftFormatDependency],
             path: "Plugins/LintSourceCode"
         ),
         .target(
@@ -90,3 +84,4 @@ let package = Package(
         )
     ]
 )
+

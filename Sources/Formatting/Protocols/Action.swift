@@ -10,10 +10,10 @@ protocol Action  {
     
     // MARK: Properties
     
-    var fileHandler: FileHandler { get }
-    var command: Commandable { get }
     var subCommand: String { get }
-    
+    var fileHandler: FileHandler { get }
+    var execute: Executable { get }
+
     // MARK: Functions
     
     func callAsFunction(
@@ -31,7 +31,7 @@ extension Action {
     // MARK: Functions
     
     func callAsFunction(commandPath: String) throws {
-        try command(
+        try execute(
             pathToCommand: commandPath,
             arguments: makeArguments(
                 options: [.Options.Common.help]
