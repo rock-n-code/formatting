@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol FileHandler {
+public protocol FileHandler {
     
     // MARK: Functions
     

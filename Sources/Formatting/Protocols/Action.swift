@@ -6,7 +6,7 @@
 //  Copyright © 2022 Röck+Cöde. All rights reserved.
 //
 
-protocol Action  {
+public protocol Action  {
     
     // MARK: Properties
     
@@ -16,6 +16,7 @@ protocol Action  {
 
     // MARK: Functions
     
+    func callAsFunction(commandPath: String) throws
     func callAsFunction(
         commandPath: String,
         configurationPath: String?,
@@ -30,7 +31,7 @@ extension Action {
     
     // MARK: Functions
     
-    func callAsFunction(commandPath: String) throws {
+    public func callAsFunction(commandPath: String) throws {
         try execute(
             pathToCommand: commandPath,
             arguments: makeArguments(
@@ -39,26 +40,34 @@ extension Action {
         )
     }
     
+}
+
+// MARK: - Helpers
+
+extension Action {
+
+    // MARK: Functions
+    
     func makeArguments(
         options: [String] = [],
         configurationPath: String? = nil,
         directoryPath: String? = nil
     ) -> [String] {
         var arguments: [String] = [subCommand] + options
-
+        
         if let configurationPath,
            fileHandler.fileExists(atPath: configurationPath)
         {
-            arguments.append(contentsOf: [
-                .Options.Common.configuration,
-                configurationPath
-            ])
+        arguments.append(contentsOf: [
+            .Options.Common.configuration,
+            configurationPath
+        ])
         }
         
         if let directoryPath {
             arguments.append(directoryPath)
         }
-
+        
         return arguments
     }
     
