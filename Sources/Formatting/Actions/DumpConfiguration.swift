@@ -8,12 +8,13 @@
 
 import Foundation
 
-struct DumpConfiguration {
-    
+struct DumpConfiguration: Action {
+
     // MARK: Properties
     
-    private let fileHandler: FileHandler
-    private let command: Commandable
+    let fileHandler: FileHandler
+    let command: Commandable
+    let subCommand: String = .Subcommands.dumpConfiguration
     
     // MARK: Functions
     
@@ -29,8 +30,14 @@ struct DumpConfiguration {
     
     func callAsFunction(
         commandPath: String,
-        configurationPath: String
+        configurationPath: String? = nil,
+        directoryPath: String? = nil
     ) throws {
+        guard let configurationPath else {
+            assertionFailure("The configuration path should have been defined.")
+            return
+        }
+        
         if fileHandler.fileExists(atPath: configurationPath),
            fileHandler.isDeletableFile(atPath: configurationPath)
         {
@@ -39,7 +46,7 @@ struct DumpConfiguration {
         
         let configurationData = try command(
             pathToCommand: commandPath,
-            arguments: [.Subcommands.dumpConfiguration]
+            arguments: makeArguments()
         )
         
         fileHandler.createFile(
