@@ -17,6 +17,7 @@ let package = Package(
             targets: [
                 "Dump Configuration",
                 "Format Source Code",
+                "Lint Source Code"
             ]
         )
     ],
@@ -61,6 +62,22 @@ let package = Package(
                 ),
             ],
             path: "Plugins/FormatSourceCode"
+        ),
+        .plugin(
+            name: "Lint Source Code",
+            capability: .command(
+                intent: .custom(
+                    verb: "lint-source-code",
+                    description: "Lint source code using swift-format."
+                )
+            ),
+            dependencies: [
+                .product(
+                    name: "swift-format",
+                    package: "swift-format"
+                ),
+            ],
+            path: "Plugins/LintSourceCode"
         ),
         .target(
             name: "FormattingCore",
