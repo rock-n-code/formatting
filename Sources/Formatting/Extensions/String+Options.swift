@@ -8,9 +8,24 @@
 
 extension String {
     enum Options {
-        static let configuration = "--configuration"
-        static let inPlace = "--in-place"
-        static let parallel = "--parallel"
-        static let recursive = "--recursive"
+        enum Format {
+            static let inPlace = "--in-place"
+        }
+        
+        enum Lint {
+            static let strict = "--strict"
+        }
+        
+        enum Common {
+            static let assumeFilename = "--asume-filename"
+            static let colorDiagnostics = "--color-diagnostics"
+            static let noColorDiagnostics = "--no-color-diagnostics"
+            static let ignoreUnparsableFiles = "--ignore-unparsable-files"
+            static let configuration = "--configuration"
+            static let parallel = "--parallel"
+            static let recursive = "--recursive"
+            static let version = "--version"
+            static let help = "--help"
+        }
     }
 }
