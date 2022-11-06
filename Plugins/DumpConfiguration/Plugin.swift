@@ -23,7 +23,8 @@ extension Plugin: CommandPlugin {
     ) throws {
         try dumpConfiguration(
             context: context,
-            directory: context.package.directory
+            directory: context.package.directory,
+            arguments: arguments
         )
     }
     
@@ -44,7 +45,8 @@ extension Plugin: XcodeCommandPlugin {
     ) throws {
         try dumpConfiguration(
             context: context,
-            directory: context.xcodeProject.directory
+            directory: context.xcodeProject.directory,
+            arguments: arguments
         )
     }
     

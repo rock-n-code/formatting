@@ -14,15 +14,22 @@ extension CommandPlugin {
     
     func dumpConfiguration(
         context: Toolable,
-        directory: Path
+        directory: Path,
+        arguments: [String]
     ) throws {
+        var argumentExtractor = ArgumentExtractor(arguments)
+        
+        let dumpConfiguration = DumpConfiguration()
         let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
         let configurationPath = directory.appending(.Defaults.configurationFileName).string
+        let helpOption = argumentExtractor.extractFlag(named: .Options.Common.help)
         
-        try DumpConfiguration().callAsFunction(
-            commandPath: swiftFormatPath,
-            configurationPath: configurationPath
-        )
+        helpOption == 1
+            ? try dumpConfiguration(commandPath: swiftFormatPath)
+            : try dumpConfiguration(
+                commandPath: swiftFormatPath,
+                configurationPath: configurationPath
+            )
     }
     
 }
