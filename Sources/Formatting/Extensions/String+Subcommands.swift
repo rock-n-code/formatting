@@ -10,5 +10,6 @@ extension String {
     enum Subcommands {
         static let dumpConfiguration = "dump-configuration"
         static let format = "format"
+        static let lint = "lint"
     }
 }
