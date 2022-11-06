@@ -27,6 +27,13 @@ struct FormatSourceCode {
     
     // MARK: Functions
     
+    func callAsFunction(commandPath: String) throws {
+        try command(
+            pathToCommand: commandPath,
+            arguments: [.Options.Common.help]
+        )
+    }
+    
     func callAsFunction(
         commandPath: String,
         directoryPath: String,
@@ -35,8 +42,8 @@ struct FormatSourceCode {
         try command(
             pathToCommand: commandPath,
             arguments: makeArguments(
-                directoryPath: directoryPath,
-                configurationPath: configurationPath
+                directoryPath,
+                configurationPath
             )
         )
     }
@@ -50,27 +57,28 @@ private extension FormatSourceCode {
     // MARK: Functions
     
     func makeArguments(
-        directoryPath: String,
-        configurationPath: String?
+        _ directoryPath: String,
+        _ configurationPath: String?
     ) -> [String] {
         var arguments: [String] = [
             .Subcommands.format,
-            .Options.inPlace,
-            .Options.parallel,
-            .Options.recursive
+            .Options.Format.inPlace,
+            .Options.Common.parallel,
+            .Options.Common.recursive
         ]
-        
+
         if let configurationPath,
            fileHandler.fileExists(atPath: configurationPath)
         {
             arguments.append(contentsOf: [
-                .Options.configuration,
+                .Options.Common.configuration,
                 configurationPath
             ])
         }
-        
+
         arguments.append(directoryPath)
-        
+
         return arguments
     }
+
 }
