@@ -1,14 +1,14 @@
 //
-//  FormatSourceCode.swift
+//  LintSourceCode.swift
 //  FormattingCore
 //
-//  Created by Javier Cicchelli on 01/11/2022.
+//  Created by Javier Cicchelli on 06/11/2022.
 //  Copyright © 2022 Röck+Cöde. All rights reserved.
 //
 
 import Foundation
 
-struct FormatSourceCode {
+struct LintSourceCode {
     
     // MARK: Properties
     
@@ -42,8 +42,8 @@ struct FormatSourceCode {
         try command(
             pathToCommand: commandPath,
             arguments: makeArguments(
-                directoryPath,
-                configurationPath
+                directoryPath: directoryPath,
+                configurationPath: configurationPath
             )
         )
     }
@@ -52,22 +52,21 @@ struct FormatSourceCode {
 
 // MARK: - Helpers
 
-private extension FormatSourceCode {
+private extension LintSourceCode {
     
     // MARK: Functions
     
     func makeArguments(
-        _ directoryPath: String,
-        _ configurationPath: String?
+        directoryPath: String,
+        configurationPath: String?
     ) -> [String] {
         var arguments: [String] = [
-            .Subcommands.format,
-            .Options.Format.inPlace,
-            .Options.Common.colorDiagnostics,
+            .Subcommands.lint,
+            .Options.Common.colorDiagnostics, 
             .Options.Common.parallel,
             .Options.Common.recursive
         ]
-
+        
         if let configurationPath,
            fileHandler.fileExists(atPath: configurationPath)
         {
@@ -76,10 +75,9 @@ private extension FormatSourceCode {
                 configurationPath
             ])
         }
-
+        
         arguments.append(directoryPath)
-
+        
         return arguments
     }
-
 }
