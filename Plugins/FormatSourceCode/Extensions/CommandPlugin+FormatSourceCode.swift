@@ -14,16 +14,23 @@ extension CommandPlugin {
     
     func formatSourceCode(
         context: Toolable,
-        directory: Path
+        directory: Path,
+        arguments: [String]
     ) throws {
+        var argumentExtractor = ArgumentExtractor(arguments)
+        
+        let formatSourceCode = FormatSourceCode()
         let swiftFormatPath = try context.tool(named: .Commands.swiftFormat).path.string
         let configurationPath = directory.appending(.Defaults.configurationFileName).string
+        let helpOption = argumentExtractor.extractFlag(named: .Options.Common.help)
 
-        try FormatSourceCode().callAsFunction(
-            commandPath: swiftFormatPath,
-            directoryPath: directory.string,
-            configurationPath: configurationPath
-        )
+        helpOption == 1
+            ? try formatSourceCode(commandPath: swiftFormatPath)
+            : try formatSourceCode(
+                commandPath: swiftFormatPath,
+                configurationPath: configurationPath,
+                directoryPath: directory.string
+            )
     }
     
 }
